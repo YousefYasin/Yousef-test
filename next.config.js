@@ -1,6 +1,12 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+const withTM = require("next-transpile-modules")(["@mui/material"]); // pass the modules you would like to see transpiled
 
-module.exports = nextConfig
+module.exports = withTM({
+  reactStrictMode: true,
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@material-ui/styled-engine": "@material-ui/styled-engine-sc",
+    };
+    return config;
+  },
+});
